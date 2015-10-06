@@ -11,5 +11,5 @@ var device_vdpi = 72;
 ft.Set_Char_Size(face, 0, ptSize, device_hdpi, device_vdpi );
 
 var hb = require('../index.js');
-var glyphs = hb(face.handle, process.argv[3]);
+var glyphs = hb(face, process.argv[3]);
 console.log(glyphs);

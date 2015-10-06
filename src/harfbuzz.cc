@@ -4,6 +4,7 @@
 #include <sstream>
 #include <string>
 #include <nan.h>
+#include <FontFace.h>
 
 #include <iostream>
 
@@ -16,18 +17,11 @@ using v8::Number;
 using v8::Array;
 
 NAN_METHOD(Shape) {
-
-  String::Utf8Value ftHandle(info[0]->ToString());
+  FontFace* fontFace = node::ObjectWrap::Unwrap<FontFace>(info[0]->ToObject());
   String::Utf8Value input(info[1]->ToString());
 
-  std::stringstream ss;
-  ss << std::hex << *ftHandle;
-  unsigned long ptr;
-  ss >> ptr;
-  FT_Face ft_face = reinterpret_cast<FT_Face>(ptr);
-
   hb_buffer_t *buf = hb_buffer_create();
-  hb_font_t *hb_ft_font = hb_ft_font_create(ft_face, NULL);
+  hb_font_t *hb_ft_font = hb_ft_font_create(fontFace->ftFace, NULL);
   //hb_buffer_set_direction(buf, HB_DIRECTION_LTR);
   hb_buffer_set_direction(buf, HB_DIRECTION_RTL);
   //hb_buffer_set_script(buf, "en");
